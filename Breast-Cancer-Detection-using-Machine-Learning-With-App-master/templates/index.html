@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Breast Cancer Prediction</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        text-align: center;
+        padding: 50px;
+        background-image: url("../static/breast_Cancer.jpg");
+        background-size: 100% 950%; /* Scales the image to cover the entire screen */
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .main {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        width: 50%;
+        margin: auto;
+
+        /* Centering the div */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      h2 {
+        color: #333;
+      }
+
+      form {
+        margin: 20px 0;
+      }
+
+      label {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      input {
+        width: 80%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      h3 {
+        margin-top: 20px;
+      }
+
+      #result {
+        font-weight: bold;
+        color: #ff5733;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <h1>Breast Cancer Prediction</h1>
+      <form id="prediction-form">
+        <label for="feature">Enter Features (comma-separated):</label>
+        <input type="text" id="feature" name="feature" required />
+        <button type="submit">Predict</button>
+      </form>
+      <h3>Prediction Result: <span id="result"></span></h3>
+    </div>
+    <script>
+      document
+        .getElementById("prediction-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+    
+          // Get the input value
+          const features = document.getElementById("feature").value.trim();
+    
+          // Ensure input is not empty
+          if (!features) {
+            document.getElementById("result").textContent =
+              "Please enter feature values.";
+            return;
+          }
+    
+          // Send data to the server
+          fetch("http://127.0.0.1:5000/predict", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `feature=${encodeURIComponent(features)}`, // Encode input
+          })
+            .then((response) => response.json()) // Parse JSON response
+            .then((data) => {
+              console.log(data);
+              document.getElementById("result").textContent = data.prediction;
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              document.getElementById("result").textContent =
+                "An error occurred. Please try again.";
+            });
+        });
+    </script>
+    
+  </body>
+</html>
