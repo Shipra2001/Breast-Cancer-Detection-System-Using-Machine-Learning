@@ -18,7 +18,7 @@ Deployment: Flask API
 Clone the Repository
 
 bash
-git clone https://github.com/yourusername/Breast-Cancer-Detection.git
+git clone https://github.com/Shipra2001/Breast-Cancer-Detection-System-Using-Machine-Learning.git
 
 cd Breast-Cancer-Detection
 
